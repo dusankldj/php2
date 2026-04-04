@@ -7,93 +7,77 @@
         @endcomponent
 
         <!-- Glavni sadržaj -->
-        <section class="flex-1 p-6">
-            <h1 class="text-2xl font-bold mb-4">Welcome to <span class="text-blue-700">Webstore</span></h1>
-            <p class="mb-4">
-                Ovde ide glavni sadržaj stranice. Sidebar ostaje uz levu ivicu, a sadržaj se prikazuje u ostatku prostora.
-            </p>
-            <p>
-                Na mobilnim uređajima sidebar se pretvara u dropdown.
-            </p>
-        </section>
+            <section class="flex-1 p-6">
+                <h1 class="text-2xl font-bold mb-4">Welcome to <span class="italic font-extrabold text-blue-700">Webstore</span></h1>
+                <p class="mb-4">
+                    Welcome to <span class="italic font-bold text-blue-700">Webstore</span>, the place where you can discover a wide variety of products designed to meet your everyday needs. From household essentials to unique items that spark creativity, our store is built to provide convenience and inspiration.
+                </p>
+                <p class="mb-4">
+                    Whether you are shopping for yourself, your family, or looking for the perfect gift, Webstore offers a carefully curated selection to make your experience enjoyable and efficient.
+                </p>
+                <p>
+                    On mobile devices, the sidebar transforms into a dropdown menu, making navigation simple and user-friendly. Explore, enjoy, and let Webstore be your trusted destination for all the things you need and love.
+                </p>
+            </section>
+
 
     </div>
 
 
     <section class="relative w-full overflow-hidden py-6">
         <div class="my-4">
-            <h2 class="font-bold italic text-center text-3xl">Discount&nbsp;&nbsp;<i class="fa-solid fa-percent"></i></h2>
+            <h2 class="font-bold italic text-center text-3xl">Some of our products</h2>
         </div>
 
         <div id="productCarousel" class="overflow-hidden">
             <div id="productTrack" class="flex">
 
-                <!-- CARD -->
-                <div class="product-slide">
-                    <div class="bg-white rounded-lg shadow p-4 flex flex-col">
-                        <div class="h-40 bg-gray-200 flex items-center justify-center overflow-hidden rounded">
-                            <img src="https://picsum.photos/300/300?1"
-                                 class="max-h-full object-contain">
-                        </div>
-                        <h3 class="mt-3 font-semibold">Product 1</h3>
-                        <p class="text-sm text-gray-500">$99</p>
-                    </div>
-                </div>
+                @foreach($products as $product)
+                    <div class="product-slide">
+                        <div class="bg-white rounded-lg shadow p-4 flex flex-col">
 
-                <div class="product-slide">
-                    <div class="bg-white rounded-lg shadow p-4 flex flex-col">
-                        <div class="h-40 bg-gray-200 flex items-center justify-center overflow-hidden rounded">
-                            <img src="https://picsum.photos/300/300?2"
-                                 class="max-h-full object-contain">
-                        </div>
-                        <h3 class="mt-3 font-semibold">Product 2</h3>
-                        <p class="text-sm text-gray-500">$137</p>
-                    </div>
-                </div>
+                            <!-- Slika -->
+                            <div class="h-40 bg-gray-200 flex items-center justify-center overflow-hidden rounded">
+                                <img src="{{ asset('storage/' . $product->thumbnail->image_path) }}"
+                                     alt="{{ $product->thumbnail->image_alt }}">
+                            </div>
 
-                <div class="product-slide">
-                    <div class="bg-white rounded-lg shadow p-4 flex flex-col">
-                        <div class="h-40 bg-gray-200 flex items-center justify-center overflow-hidden rounded">
-                            <img src="https://picsum.photos/300/300?3"
-                                 class="max-h-full object-contain">
-                        </div>
-                        <h3 class="mt-3 font-semibold">Product 3</h3>
-                        <p class="text-sm text-gray-500">$269</p>
-                    </div>
-                </div>
+                            <!-- Naziv -->
+                            <h3 class="mt-3 font-semibold">
+                                {{ $product->name }}
+                            </h3>
 
-                <div class="product-slide">
-                    <div class="bg-white rounded-lg shadow p-4 flex flex-col">
-                        <div class="h-40 bg-gray-200 flex items-center justify-center overflow-hidden rounded">
-                            <img src="https://picsum.photos/300/300?4"
-                                 class="max-h-full object-contain">
-                        </div>
-                        <h3 class="mt-3 font-semibold">Product 4</h3>
-                        <p class="text-sm text-gray-500">$50</p>
-                    </div>
-                </div>
+                            <div class="mt-2">
 
-                <div class="product-slide">
-                    <div class="bg-white rounded-lg shadow p-4 flex flex-col">
-                        <div class="h-40 bg-gray-200 flex items-center justify-center overflow-hidden rounded">
-                            <img src="https://picsum.photos/300/300?5"
-                                 class="max-h-full object-contain">
-                        </div>
-                        <h3 class="mt-3 font-semibold">Product 5</h3>
-                        <p class="text-sm text-gray-500">$200</p>
-                    </div>
-                </div>
+                                @if($product->discount_price)
+                                    <div class="flex justify-between items-center">
 
-                <div class="product-slide">
-                    <div class="bg-white rounded-lg shadow p-4 flex flex-col">
-                        <div class="h-40 bg-gray-200 flex items-center justify-center overflow-hidden rounded">
-                            <img src="https://picsum.photos/300/300?6"
-                                 class="max-h-full object-contain">
+                                        <!-- stara cena -->
+                                        <span class="line-through text-red-500 text-sm">
+                {{ $product->price }} $
+            </span>
+
+                                        <!-- nova cena -->
+                                        <span class="text-blue-600 font-bold text-lg">
+                {{ $product->discount_price }} $
+            </span>
+
+                                    </div>
+                                @else
+                                    <div class="text-right">
+            <span class="text-blue-700 font-bold text-lg">
+                {{ $product->price }} $
+            </span>
+                                    </div>
+                                @endif
+
+                            </div>
+
                         </div>
-                        <h3 class="mt-3 font-semibold">Product 1</h3>
-                        <p class="text-sm text-gray-500">$99</p>
                     </div>
-                </div>
+                @endforeach
+
+            </div>
 
                 <!-- Kopiraj još 4-8 proizvoda -->
                 <!-- ... -->

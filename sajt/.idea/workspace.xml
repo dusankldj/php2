@@ -22,6 +22,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="$PROJECT_DIR$/../../../../../../../xampp/php/php.exe">
     <include_path>
       <path value="$PROJECT_DIR$/webstore/vendor/psr/container" />
@@ -152,6 +155,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/Dusan Laptop/Desktop/3.godina/Php2/projects/sajt",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -221,7 +225,7 @@
       <workItem from="1775058302802" duration="42000" />
       <workItem from="1775059852128" duration="37000" />
       <workItem from="1775107410807" duration="12127000" />
-      <workItem from="1775200593772" duration="27694000" />
+      <workItem from="1775200593772" duration="60740000" />
     </task>
     <servers />
   </component>

@@ -4,15 +4,14 @@
 
             <!-- Logo -->
             <div class="flex-shrink-0 text-xl font-bold italic">
-                AdminPanel
+                <a href="{{ route('admin.dashboard') }}">AdminPanel</a>
             </div>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#" class="hover:text-gray-300">Categories</a>
-                <a href="#" class="hover:text-gray-300">About</a>
-                <a href="#" class="hover:text-gray-300">Services</a>
-                <a href="#" class="hover:text-gray-300">Contact</a>
+                <a href="{{ route('admin.product') }}" class="hover:text-gray-300">Add product</a>
+                <a href="{{ route('admin.categories.index') }}" class="hover:text-gray-300">Categories</a>
+                <a href="{{ route('admin.specifications.index') }}" class="hover:text-gray-300">Specifications</a>
 
                 <!-- Account ikonica -->
                 <i id="acc-icon"

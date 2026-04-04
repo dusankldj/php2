@@ -16,6 +16,8 @@ import './cart.js';
 //za adminPanel
 import './adminPanel/adminBasics.js';
 import './adminPanel/adminProduct.js';
+import './adminPanel/categories.js';
+import './adminPanel/specs.js';
 
 
 //toaster

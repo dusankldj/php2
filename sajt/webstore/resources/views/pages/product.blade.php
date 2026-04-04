@@ -54,17 +54,29 @@
                     <p class="italic font-bold text-lg">{{ $product->price }}&nbsp;$</p>
                 @endif
 
-                @if($product->stock==0)
-                    <div class="bg-red-600 w-60 text-white text-center py-3 px-4 rounded-lg font-semibold">
-                        Out of stock&nbsp;&nbsp;<i class="fa-solid fa-store-slash fa-lg"></i>
-                    </div>
+                @if(auth()->check() && auth()->user()->role->name!='admin')
+                    @if($product->stock==0)
+                        <div class="bg-red-600 w-60 text-white text-center py-3 px-4 rounded-lg font-semibold">
+                            Out of stock&nbsp;&nbsp;<i class="fa-solid fa-store-slash fa-lg"></i>
+                        </div>
+                    @else
+                        <meta name="csrf-token" content="{{ csrf_token() }}">
+                        <button class="cursor-pointer bg-blue-700 w-60 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-800 transition active:scale-95 addToCart" data-id="{{ $product->id }}" data-session="{{ session()->has('username') ? 1 : 0 }}">
+                            Add to cart&nbsp;&nbsp;<i class="fa-solid fa-cart-shopping fa-lg"></i>
+                        </button>
+                    @endif
                 @else
-                    <meta name="csrf-token" content="{{ csrf_token() }}">
-                    <button class="cursor-pointer bg-blue-700 w-60 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-800 transition active:scale-95 addToCart" data-id="{{ $product->id }}" data-session="{{ session()->has('username') ? 1 : 0 }}">
-                        Add to cart&nbsp;&nbsp;<i class="fa-solid fa-cart-shopping fa-lg"></i>
-                    </button>
-                @endif
+                    <div class="flex gap-2">
+                        <a href="{{ route('admin.product.edit', $product->id) }}"
+                           class="inline-block bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded font-semibold transition">
+                            Update&nbsp;&nbsp;<i class="fa-solid fa-pen-to-square"></i>
+                        </a>
 
+                        <button data-id="{{ $product->id }}" class="buttonDeleteProduct cursor-pointer bg-red-700 hover:bg-red-700 text-white px-4 py-2 rounded font-semibold">
+                            Delete&nbsp;&nbsp;<i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                @endif
             </div>
 
         </div>

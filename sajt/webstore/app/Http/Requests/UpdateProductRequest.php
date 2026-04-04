@@ -27,6 +27,9 @@ class UpdateProductRequest extends FormRequest
             'discount_price' => 'nullable|numeric|min:0.01|lt:price',
             'description' => 'required|string|min:3',
             'quantity' => 'required|integer|min:0',
+            'category' => 'required|integer',
+            'spec_value' => 'required|array',
+            'spec_value.*' => 'required|string|min:1',
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ];
@@ -41,14 +44,20 @@ class UpdateProductRequest extends FormRequest
           'price.required' => 'Product price is required.',
           'price.min' => 'Product price must be at least 1.',
 
-          'discount_price' => 'Product price is required.',
-          'discount_price.lt' => 'Discount price must be lower than price.',
+          'discount_price.required' => 'Product price is required.',
+          'discount_price.lt' => 'Discount price must be lower than regular price.',
 
-          'dexcription.required' => 'Description is required.',
-          'description.min.min' => 'Description must be at least 3 characters.',
+          'description.required' => 'Description is required.',
+          'description.min' => 'Description must be at least 3 characters.',
+
+          'category.required' => 'Select category.',
+          'category.integer' => 'You must select one category.',
 
           'quantity.required' => 'Quantity is required.',
           'quantity.min' => 'Quantity minimum is 0.',
+
+          'spec_value.*.required' => 'Specification value is required.',
+          'spec_value.*.min' => 'Specification cannot be empty.',
 
           'images.*.mimes' => 'Image must be in jpg, jpeg, png or webp format.',
           'images.*.max' => 'Image must be less than 2MB.',

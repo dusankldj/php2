@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CRUDCategories;
+use App\Http\Controllers\SpecificationsController;
 
 Route::get('/', [CategoryController::class, 'writeCategories'])
     ->name('home');
@@ -18,9 +20,6 @@ Route::get('/home', [CategoryController::class, 'writeCategories'])
 Route::get('/store', [StoreController::class, 'index'])
     ->name('store');
 
-Route::get('/faq', function () {
-    return view('pages.faq');
-})->name('faq');
 
 Route::get('/contact', function (){
     return view('pages.contact');
@@ -93,6 +92,18 @@ Route::middleware('AdminMiddleware')->group(function(){
 
     Route::delete('admin/image/delete-image', [AdminController::class, 'deleteImage'])
         ->name('admin.delete-image');
+
+
+
+    Route::resource('/admin/categories', CRUDCategories::class)
+        ->names('admin.categories');
+
+    Route::resource('/admin/category', CRUDCategories::class)
+        ->names('admin.category');
+
+
+    Route::resource('/admin/specifications', SpecificationsController::class)
+        ->names('admin.specifications');
 });
 
 

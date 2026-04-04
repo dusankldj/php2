@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InsertProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\CartItems;
 use App\Models\Category;
@@ -9,6 +10,7 @@ use App\Models\Image;
 use App\Models\Specification;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ProductSpecification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -49,6 +51,12 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    public function showAddProductPage(){
+        $isEdit=false;
+
+        return view('admin.pages.product');
+    }
+
     public function edit(string $id)
     {
         $product=Product::with([
@@ -76,8 +84,56 @@ class AdminController extends Controller
     }
 
 
-    public function addProduct(Request $request){
+    public function addProduct(InsertProductRequest $request){
+        try{
+            $discount_price="";
 
+            if($request->discount_price=="")
+                $discount_price=null;
+
+            DB::transaction(function () use ($request,$discount_price){
+                $product=Product::create([
+                    'name'=>$request->name,
+                    'price'=>$request->price,
+                    'discount_price'=>$request->discount_price,
+                    'description'=>$request->description,
+                    'stock'=>$request->quantity,
+                    'category_id'=>$request->category,
+                    'created_at'=>now(),
+                    'updated_at'=>now()
+                ]);
+
+                $this->updateImages($request->file('images'), $product);
+
+                $this->insertSpecs($request->spec_value, $product);
+            });
+        }catch(\Exception $ex){
+            return response()->json([
+                "message"=>$ex->getMessage()
+            ]);
+        }
+
+        return redirect()->route('admin.dashboard');
+    }
+
+    public function insertSpecs($specs, $product)
+    {
+        $allowedSpecs = $product->category->parent->specifications->pluck('id')->toArray();
+
+        foreach ($specs as $specId => $value) {
+            // preskoči ako nije dozvoljena specifikacija
+            if (!in_array($specId, $allowedSpecs))
+                continue;
+
+            if (empty($value))
+                continue;
+
+            ProductSpecification::create([
+                'product_id' => $product->id,
+                'specification_id' => $specId,
+                'value' => $value
+            ]);
+        }
     }
 
     public function redirectToCreateProduct(){
@@ -138,38 +194,61 @@ class AdminController extends Controller
             ]);
     }
 
-    public function updateImages(UpdateProductRequest $request, $product)
+    public function updateImages($images, $product)
     {
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
-                $originalName = $file->getClientOriginalName();
+        if (!$images) return;
 
-                $exists = Image::where('image_path', 'products_images/' . $originalName)->exists();
+        $hasThumbnail = Image::where('product_id', $product->id)
+            ->where('is_thumbnail', 1)
+            ->exists();
 
-                if ($exists)
-                    throw ValidationException::withMessages([
-                        'images' => 'Image with this name already exists.'
-                    ]);
+        //uzmi poslednji index
+        $lastIndex = array_key_last($images);
 
-                $file->storeAs('products_images', $originalName, 'public');
+        foreach ($images as $index => $file) {
 
-                Image::create([
-                    'product_id' => $product->id,
-                    'image_path' => 'products_images/' . $originalName,
-                    'image_alt' => pathinfo($originalName, PATHINFO_FILENAME),
-                    'is_thumbnail' => 0
+            $originalName = $file->getClientOriginalName();
+
+            $exists = Image::where('image_path', 'products_images/' . $originalName)->exists();
+
+            if ($exists)
+                throw ValidationException::withMessages([
+                    'images' => 'Image with this name already exists.'
                 ]);
-            }
-        }
 
+            $file->storeAs('products_images', $originalName, 'public');
+
+            Image::create([
+                'product_id' => $product->id,
+                'image_path' => 'products_images/' . $originalName,
+                'image_alt' => pathinfo($originalName, PATHINFO_FILENAME),
+
+                'is_thumbnail' => !$hasThumbnail && $index == $lastIndex ? 1 : 0
+            ]);
+        }
     }
+
+
+    public function updateSpecs($specs, $productID){
+        foreach ($specs as $specId => $value) {
+                ProductSpecification::updateOrCreate(
+                [
+                    'product_id' => $productID,
+                    'specification_id' => $specId,
+                ],
+                [
+                    'value' => $value
+                ]);
+        }
+    }
+
         public function editProduct(UpdateProductRequest $request, $id)
         {
             $product = Product::findOrFail($id);
 
             // update osnovnih podataka
             $product->update([
-                'name' => $request->product_name,
+                'name' => $request->name,
                 'price' => $request->price,
                 'discount_price' => $request->discount_price,
                 'description' => $request->description,
@@ -179,7 +258,9 @@ class AdminController extends Controller
             ]);
 
             //poziv update-a za sliku/slike
-            $this->updateImages($request, $product);
+            $this->updateImages($request->file('images'), $product);
+
+            $this->updateSpecs($request->spec_value, $product->id);
 
             return back()->with('success', 'Product updated');
         }

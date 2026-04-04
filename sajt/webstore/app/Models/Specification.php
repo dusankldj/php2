@@ -7,6 +7,9 @@ use App\Models\Product;
 
 class Specification extends Model
 {
+    protected $fillable = ['name'];
+
+    public $timestamps = false;
     public function products()
     {
         return $this->belongsToMany(

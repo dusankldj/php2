@@ -23,7 +23,7 @@
                 <!-- Product Name -->
                 <div>
                     <h4 class="text-sm font-semibold text-gray-700 mb-2">Product name</h4>
-                    <input type="text" name="product_name" value="{{ old('product_name', $product->name ?? '') }}"
+                    <input type="text" name="name" value="{{ old('product_name', $product->name ?? '') }}"
                            class="text-blue-700 font-bold mt-1 w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none">
                 </div>
 
@@ -32,19 +32,19 @@
 
                     <div class="flex-1">
                         <h4 class="text-sm font-semibold text-gray-700 mb-2">Price</h4>
-                        <input type="number" name="price" step="1" min="1" max="100000" value="{{ old('price', $product->price ?? '') }}"
+                        <input type="number" name="price" step="0.5" min="1" max="100000" value="{{ old('price', $product->price ?? '') }}"
                                class="text-blue-700 font-bold mt-1 w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
 
                     <div class="flex items-end gap-2">
                         <input type="checkbox" id="hasDiscount" name="discount_price_checkbox"
-                               value="{{ old('discount_price', $product->discount_price ?? '') }}">
+                               value="{{ old('discount_price', $product->discount_price ?? '') }}" {{ $product->discount_price ? 'checked' : '' }}>
                         <label class="text-sm">Discount</label>
                     </div>
 
-                    <div id="discountWrapper" class="flex-1 hidden">
+                    <div id="discountWrapper" class="flex-1 {{$product->discount_price ? "" : 'hidden'}}">
                         <h4 class="text-sm font-semibold text-gray-700 mb-2">Discount price</h4>
-                        <input type="number" name="discount_price" step="1" min="1" max="100000" value="{{ $product->discount_price }}"
+                        <input type="number" name="discount_price" step="0.5" min="1" max="100000" value="{{ $product->discount_price }}"
                                class="text-blue-700 font-bold mt-1 w-full border rounded-lg p-2 focus:ring-2 focus:ring-green-400 outline-none">
                     </div>
 
@@ -173,7 +173,7 @@
             @if($errors->any())
                 <div class="my-3 text-center">
                     <ul class="list-unstyled italic text-red-700">
-                        @foreach($errors as $e)
+                        @foreach($errors->all() as $e)
                             <li>{{ $e }}</li>
                         @endforeach
                     </ul>

@@ -12,7 +12,6 @@
             <div class="hidden md:flex space-x-8">
                 <a href="{{ url('/') }}" class="text-gray-700 hover:text-blue-600">Home</a>
                 <a href="{{ url('/store') }}" class="text-gray-700 hover:text-blue-600">Store</a>
-                <a href="{{ url('/faq') }}" class="text-gray-700 hover:text-blue-600">FAQ</a>
                 <a href="{{ url('/contact') }}" class="text-gray-700 hover:text-blue-600">Contact</a>
                 <a href="{{ url('/author') }}" class="text-gray-700 hover:text-blue-600">Author</a>
             </div>
@@ -29,7 +28,6 @@
     <div id="mobileMenu" class="overflow-hidden transition-all duration-300 max-h-0 md:hidden px-4 space-y-2 bg-white">
         <a href="{{ url('/') }}" class="block text-gray-700 hover:text-blue-700">Home</a>
         <a href="{{ url('/store') }}" class="block text-gray-700 hover:text-blue-700">Store</a>
-        <a href="{{ url('/faq') }}" class="block text-gray-700 hover:text-blue-700">FAQ</a>
         <a href="{{ url('/contact') }}" class="block text-gray-700 hover:text-blue-700">Contact</a>
         <a href="{{ url('/author') }}" class="block text-gray-700 hover:text-blue-700">Author</a>
     </div>
