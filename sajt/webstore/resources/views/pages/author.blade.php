@@ -7,7 +7,7 @@
             <div class="md:w-1/2 text-left">
                 <h3 class="text-2xl font-bold mb-2">Student: Dušan Đokić</h3>
                 <p class="text-gray-700 italic">Index: 131/22</p>
-                <a href="">Documentation:&nbsp;&nbsp;<i class="fa-solid fa-file fa-lg"></i></a>
+                <a href="{{ asset('dokumentacija.docx') }}" target="_blank">Documentation:&nbsp;&nbsp;<i class="fa-solid fa-file fa-lg"></i></a>
             </div>
 
             <div class="md:w-1/2 flex justify-center md:justify-end">
