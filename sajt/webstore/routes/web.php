@@ -10,6 +10,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CRUDCategories;
 use App\Http\Controllers\SpecificationsController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', [CategoryController::class, 'writeCategories'])
     ->name('home');
@@ -38,6 +39,10 @@ Route::get('/author', function () {
 
 Route::get('/product', [ProductController::class, 'index'])
     ->name('product');
+
+//mejl
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 
 /*Registracija i log-in*/

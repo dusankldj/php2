@@ -54,20 +54,20 @@
 
                                         <!-- stara cena -->
                                         <span class="line-through text-red-500 text-sm">
-                {{ $product->price }} $
-            </span>
+                                            {{ $product->price }} $
+                                        </span>
 
                                         <!-- nova cena -->
-                                        <span class="text-blue-600 font-bold text-lg">
-                {{ $product->discount_price }} $
-            </span>
+                                            <span class="text-blue-600 font-bold text-lg">
+                                                {{ $product->discount_price }} $
+                                            </span>
 
                                     </div>
                                 @else
                                     <div class="text-right">
-            <span class="text-blue-700 font-bold text-lg">
-                {{ $product->price }} $
-            </span>
+                                        <span class="text-blue-700 font-bold text-lg">
+                                            {{ $product->price }} $
+                                        </span>
                                     </div>
                                 @endif
 
@@ -96,5 +96,48 @@
             ❯
         </button>
 
+    </section>
+
+    <section class="bg-gray-50 py-16">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+
+            <!-- Naslov -->
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                Get in Touch
+            </h2>
+
+            <!-- Opis -->
+            <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                Have questions or need assistance? Our team is here to help you.
+                Reach out to us and we’ll get back to you as soon as possible.
+            </p>
+
+            <!-- Kontakt info -->
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 mb-10">
+
+                <div class="flex items-center gap-2 text-gray-700">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>info@webstore.com</span>
+                </div>
+
+                <div class="flex items-center gap-2 text-gray-700">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+381 11 123 456</span>
+                </div>
+
+                <div class="flex items-center gap-2 text-gray-700">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Belgrade, Serbia</span>
+                </div>
+
+            </div>
+
+            <!-- CTA dugme -->
+            <a href="{{ route('contact') }}"
+               class="inline-block bg-blue-700 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition duration-300">
+                Contact Us
+            </a>
+
+        </div>
     </section>
 @endsection
